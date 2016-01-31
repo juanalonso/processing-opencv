@@ -8,53 +8,55 @@ import org.opencv.imgproc.Imgproc;
 
 PImage img;
 OpenCV opencv;
-Mat opencvR, opencvG, opencvB, opencvA;
+Mat opencvH, opencvS, opencvV;
 
 void setup() {
 
   size(640, 480);
   img = loadImage("test.jpg");
-  opencv = new OpenCV(this, img, true);
+  opencv = new OpenCV(this, img, true); 
+  
 }
 
 void draw() {
-
+  
   opencv.loadImage(img);
+  opencv.useColor(HSB);
 
-  opencvR = opencv.getR();  
-  opencvG = opencv.getG(); 
-  opencvB = opencv.getB(); 
-  opencvA = opencv.getA(); 
+  opencvH = opencv.getH();  
+  opencvS = opencv.getS(); 
+  opencvV = opencv.getV(); 
 
-  float rBlur = map(noise( 0 + frameCount/200.0),0,1,0,50);
-  float gBlur = map(noise(40 + frameCount/200.0),0,1,0,50);
-  float bBlur = map(noise(50 + frameCount/200.0),0,1,0,50);
+  float hBlur = map(noise( 0 + frameCount/100.0),0,1,0,75);
+  float sBlur = map(noise(40 + frameCount/100.0),0,1,0,75);
+  float vBlur = map(noise(50 + frameCount/100.0),0,1,0,75);
 
+  //Imgproc.threshold(opencvH, opencvH, map(noise( 0 + frameCount/100.0), 0, 1, 0, 255), 255, Imgproc.THRESH_BINARY); 
+  Imgproc.threshold(opencvS, opencvS, map(noise(10 + frameCount/100.0), 0, 1, 0, 255), 255, Imgproc.THRESH_BINARY); 
+  Imgproc.threshold(opencvV, opencvV, map(noise(25 + frameCount/100.0), 0, 1, 0, 255), 255, Imgproc.THRESH_BINARY); 
 
-  Imgproc.threshold(opencvR, opencvR, map(noise( 0 + frameCount/200.0), 0, 1, 0, 255), 255, Imgproc.THRESH_BINARY); 
-  Imgproc.threshold(opencvG, opencvG, map(noise(10 + frameCount/200.0), 0, 1, 0, 255), 255, Imgproc.THRESH_BINARY); 
-  Imgproc.threshold(opencvB, opencvB, map(noise(25 + frameCount/200.0), 0, 1, 0, 255), 255, Imgproc.THRESH_BINARY); 
-
-  Imgproc.blur(opencvR, opencvR, new Size(rBlur,rBlur)); 
-  Imgproc.blur(opencvG, opencvG, new Size(gBlur,gBlur)); 
-  Imgproc.blur(opencvB, opencvB, new Size(bBlur,bBlur)); 
+  //Imgproc.blur(opencvH, opencvH, new Size(hBlur,hBlur)); 
+  //Imgproc.blur(opencvS, opencvS, new Size(sBlur,sBlur)); 
+  //Imgproc.blur(opencvV, opencvV, new Size(vBlur,vBlur)); 
 
   ArrayList<Mat> reordered = new ArrayList<Mat>();
-  Mat bgra = new Mat(640, 480, CvType.CV_8UC4);
+  reordered.add(opencvH);
+  reordered.add(opencvS);
+  reordered.add(opencvV);
 
-  reordered.add(opencvB);
-  reordered.add(opencvG);
-  reordered.add(opencvR);
-  reordered.add(opencvA);
-  Core.merge(reordered, bgra); 
+  Mat hsv = new Mat(640, 480, CvType.CV_8UC4);
+  Core.merge(reordered, hsv); 
 
-  opencv.setColor(bgra);
-
-
+  Mat grba = new Mat(640, 480, CvType.CV_8UC3);
+  Imgproc.cvtColor(hsv, grba, Imgproc.COLOR_HSV2BGR, 4);
+  
+  opencv.useColor(RGB);
+  opencv.setColor(grba);
 
   image(opencv.getSnapshot(), 0, 0);
 
-  image(opencv.getSnapshot(opencvB), 630 - 64 * 1, 470 - 48, 64, 48);
-  image(opencv.getSnapshot(opencvG), 630 - 64 * 2 - 10, 470 - 48, 64, 48);
-  image(opencv.getSnapshot(opencvR), 630 - 64 * 3 - 20, 470 - 48, 64, 48);
+  image(opencv.getSnapshot(opencvH), 630 - 64 * 1, 470 - 48, 64, 48);
+  image(opencv.getSnapshot(opencvS), 630 - 64 * 2 - 10, 470 - 48, 64, 48);
+  image(opencv.getSnapshot(opencvV), 630 - 64 * 3 - 20, 470 - 48, 64, 48);
+
 }
