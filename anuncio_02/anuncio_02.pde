@@ -2,7 +2,7 @@ import gab.opencv.*;
 import processing.video.*;
 import java.awt.*;
 
-float DETECT_SCALE = 1.1;
+float DETECT_SCALE = 1.2;
 int DETECT_MINNEIGHBOURS = 7;
 int DETECT_MINSIZE = 0;
 int DETECT_MAXSIZE = 0;
@@ -13,7 +13,7 @@ Rectangle[] faces;
 
 void setup() {
 
-  size(512, 512);
+  size(640, 480);
   frameRate(30);
   noFill();
   strokeWeight(2);
@@ -33,15 +33,18 @@ void draw() {
     video.read();
   }  
 
+  image (video, 0, 0);
+
   opencv.loadImage(video);
   faces = opencv.detect(DETECT_SCALE, DETECT_MINNEIGHBOURS, 0, DETECT_MINSIZE, DETECT_MAXSIZE);
 
+  pushMatrix();
+  scale(1, -1);
+
   for (int i = 0; i < faces.length; i++) {
-    PImage ojo = video.get(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
-    int scale = 16 << (int)random(4);
-    image(ojo, ((int)random(512/scale)) * scale, ((int)random(512/scale)) * scale, scale, scale);
+    PImage face = video.get(faces[i].x, faces[i].y, faces[i].width, faces[i].height+20);
+    image(face, faces[i].x, -faces[i].y-faces[i].height);
   }
-  
-  println(frameRate);
+  popMatrix();
 
 }
