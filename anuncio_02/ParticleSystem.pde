@@ -2,6 +2,7 @@ class ParticleSystem {
   ArrayList<Particle> particles;
 
   PShape particleShape;
+  private int currentColor = 0;
 
   ParticleSystem(int n) {
     particles = new ArrayList<Particle>();
@@ -23,13 +24,22 @@ class ParticleSystem {
   void setEmitter(float x, float y) {
     for (Particle p : particles) {
       if (p.isDead()) {
-        p.rebirth(x, y);
+        p.rebirth(x, y, getNextColor());
       }
     }
   }
 
   void display() {
-
     shape(particleShape);
+  }
+
+  int getNextColor() {
+    if(random(1)>0.3) {
+    currentColor++;
+    }
+    if (currentColor > 255) {
+      currentColor = 0;
+    }
+    return currentColor;
   }
 }

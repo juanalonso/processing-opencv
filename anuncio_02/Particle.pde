@@ -2,6 +2,7 @@ class Particle {
 
   PVector velocity;
   float lifespan = 255;
+  int partColor;
   
   PShape part;
   float partSize;
@@ -21,8 +22,8 @@ class Particle {
     part.vertex(+partSize/2, +partSize/2, sprite.width, sprite.height);
     part.vertex(-partSize/2, +partSize/2, 0, sprite.height);
     part.endShape();
-    
-    rebirth(width/2,height/2);
+ 
+    rebirth(width/2,height/2, (int)random(255));
     lifespan = random(255);
   }
 
@@ -30,12 +31,13 @@ class Particle {
     return part;
   }
   
-  void rebirth(float x, float y) {
+  void rebirth(float x, float y, int partColor) {
     float a = random(TWO_PI);
     float speed = random(0.5,8);
     velocity = new PVector(cos(a), sin(a));
     velocity.mult(speed);
-    lifespan = random(255);   
+    lifespan = random(255); 
+    this.partColor = partColor;
     part.resetMatrix();
     part.translate(x, y); 
   }
@@ -54,7 +56,7 @@ class Particle {
     lifespan = lifespan - 1;
     velocity.add(gravity);
     
-    part.setTint(color(255,lifespan));
+    part.setTint(color(partColor,200,255,lifespan));
     part.translate(velocity.x, velocity.y);
   }
 }
