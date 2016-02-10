@@ -28,6 +28,9 @@ void draw() {
   image(video,0,0,480,360);
 
   opencv.loadImage(video);
+  
+  //MAGIC
+  
   image(opencv.getSnapshot(),480,0,480,360);
   
 }
