@@ -41,6 +41,9 @@ void draw() {
   //rect(0,0,640,480);
   //stroke(frameCount % 1000, 1000, 1000);
   
+  noFill();
+  stroke(0,1000,1000);
+  
   for (Contour contour : opencv.findContours (false, true)) {
     contour.draw();
   }
