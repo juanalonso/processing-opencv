@@ -40,21 +40,27 @@ void draw() {
   opencv.useColor();
   faces = opencv.detect(DETECT_SCALE, DETECT_MINNEIGHBOURS, 0, DETECT_MINSIZE, DETECT_MAXSIZE);
 
+  //2
   //pushMatrix();
   //scale(1, -1);
   for (int i = 0; i < faces.length; i++) {
 
     rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
     
+    //1
     //opencv.setROI(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
-    //opencv.blur(25,25);
+    //opencv.blur(35,35);
     //opencv.releaseROI();
 
+    //2
     //PImage face = video.get(faces[i].x, faces[i].y, faces[i].width, faces[i].height+20);
     //image(face, faces[i].x, -faces[i].y-faces[i].height);
     
   }
+  //1
   //image(opencv.getSnapshot(),0,0);
+  
+  //2
   //popMatrix();
 
 }
