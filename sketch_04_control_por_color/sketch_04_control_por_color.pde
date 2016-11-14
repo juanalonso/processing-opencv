@@ -37,7 +37,7 @@ void draw() {
   opencv.useColor(HSB);
   opencv.setGray(opencv.getH());
 
-  //opencv.inRange(100, 115);
+  opencv.inRange(142, 164);
 
   //opencv.erode();
   //opencv.erode();
