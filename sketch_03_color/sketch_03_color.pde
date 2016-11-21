@@ -31,11 +31,11 @@ void draw() {
   opencv.loadImage(video);
 
   opencv.useColor(RGB);
-  tint(255,0,0);
+  //tint(255,0,0);
   image(opencv.getSnapshot(opencv.getR()),0,240,320,240);
-  tint(0,255,0);
+  //tint(0,255,0);
   image(opencv.getSnapshot(opencv.getG()),320,240,320,240);
-  tint(0,0,255);
+  //tint(0,0,255);
   image(opencv.getSnapshot(opencv.getB()),640,240,320,240);
   noTint();
   
