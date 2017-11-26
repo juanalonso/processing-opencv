@@ -9,7 +9,8 @@ void setup() {
   size(640, 480);
   colorMode(HSB, 1000);
   strokeWeight(2);
-  
+  background(0);
+
   video = new Capture(this, 640, 480);
   video.start();
 
@@ -30,17 +31,20 @@ void draw() {
 
   image(video, 0, 0, 640, 480);
 
+  //Aumenta las zonas negras
   //opencv.erode();
+
+  //Aumenta las zonas blancas
   //opencv.dilate();
 
-  //fill(0,0,0,10);
+  //fill(0,0,0,100);
   //noStroke();
   //rect(0,0,640,480);
   //noFill();
-  
+
   stroke(0,1000,1000);
   //stroke(frameCount % 1000, 1000, 1000);
-  
+
   for (Contour contour : opencv.findContours (false, true)) {
     contour.draw();
   }
